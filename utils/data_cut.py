@@ -3,7 +3,7 @@ from numpy import genfromtxt, array
 from utils.os_control import *
 import openpyxl
 
-
+# 读入数据集
 def read_data(graph, root_dir):
     try:
         data = genfromtxt(find_file(root_dir + graph),
@@ -15,7 +15,7 @@ def read_data(graph, root_dir):
         data = data[data[:, 3].argsort()]
     return data
 
-
+# 数据集的处理，修剪数据集使其满足给定的限制条件
 def cut_graph(graph, STEP_NUM, min_len, max_len, root_dir, target_dir):
     print('-'*58)
     print('reading data {}...'.format(graph[:-1]), end='')
@@ -109,6 +109,7 @@ def data_cut(graph_box, gap, min_num, max_num, root_dir, target_dir):
     return graph_num_box
 
 
+# 计算数据集的相关数据：原始节点数，目标节点数，数据集大小。
 def cal_graph(graph_name, root_dir):
     graph = graph_name + '/'
     data = array([])
@@ -125,6 +126,7 @@ def cal_graph(graph_name, root_dir):
     return len(set(s_nodes)), len(set(t_nodes)), len(data)
 
 
+# 用Excel表显示数据集的各项指标
 def data_cal(graph_box, gap, min_num, max_num, timestamp):
     root_dir = './output/datas_origin/'
     ensure_dir('./output/output/')

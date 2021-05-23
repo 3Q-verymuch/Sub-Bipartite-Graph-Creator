@@ -7,6 +7,7 @@ from utils.os_control import *
 s_path = './output/datas_tar/'
 t_path = './output/datas_origin/'
 
+# 爬虫获取数据集
 def get_datasets(ui):
     url = 'http://konect.cc/networks/'
     headers = {
@@ -57,6 +58,7 @@ def get_datasets(ui):
 # https://blog.csdn.net/dqy74568392/article/details/96479370
 
 
+# 下载文件并显示网速和下载进度
 def downloader(data):
     if(not exists(s_path)):
         makedirs(s_path)
@@ -68,16 +70,19 @@ def downloader(data):
         return
 
     url = 'http://konect.cc/files/{}'.format(data_name)
+    # 请求下载地址，以流式的。打开要下载的文件位置。
     with get(url, stream=True) as r, open(s_path + data_name, 'wb') as file:
         total_size = int(r.headers['content-length'])
         content_size = 0
         plan = 0
         start_time = time()
         temp_size = 0
+        # 开始下载每次请求1024字节
         for content in r.iter_content(chunk_size=1024):
             file.write(content)
             content_size += len(content)
             plan = '{:.4}'.format((content_size / total_size) * 100)
+            # 每一秒统计一次下载量
             if time() - start_time > 1:
                 start_time = time()
                 speed = content_size - temp_size

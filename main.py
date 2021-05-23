@@ -14,7 +14,7 @@ from time import strftime, localtime
 
 splash_img = './gui/splash.png'
 
-
+# 实现主界面友好的用户操作及显示功能
 class EmittingStream(QObject):
     # https://blog.csdn.net/william_munch/article/details/89425038
     textWritten = pyqtSignal(str)
@@ -60,6 +60,7 @@ class main_window(Ui_Form):
         self.min_box.setEnabled(flag)
         self.gap_num.setEnabled(flag)
 
+    # 开始对用户选择的数据集进行处理
     def run(self, selected_list):
         timestamp = strftime('%Y-%m-%d_%H-%M-%S', localtime())
         for i in selected_list:
@@ -74,6 +75,7 @@ class main_window(Ui_Form):
                  self.min_box.value(), self.max_box.value(), timestamp)
         data_generate(timestamp)
 
+    # 用户点击'generate'选项，即用户进行获取数据的操作。
     def on_click_generate(self):
         self.element_switch(False)
         selected_list = []
@@ -93,6 +95,7 @@ class main_window(Ui_Form):
         self.scrollArea.setEnabled(True)
         self.element_switch(True)
 
+    # 用户点击'quit'选项，即用户进行停止获取数据的操作。
     def on_click_quit(self):
         self.element_switch(False)
         sys.exit()
@@ -156,7 +159,7 @@ class MySplashScreen(QSplashScreen):
 
 
 def main():
-    # 启动界面https://blog.csdn.net/ye281842_/article/details/109637580
+    # 启动界面 https://blog.csdn.net/ye281842_/article/details/109637580
     app = QApplication(sys.argv)
     splash = MySplashScreen()
     splash.setPixmap(QPixmap(splash_img))  # 设置背景图片
